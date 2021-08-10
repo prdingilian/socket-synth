@@ -1,4 +1,4 @@
-import { DropdownOption } from "../../constants/scale-types";
+import { DropdownOption } from "../../constants/dropdown-types";
 import styles from "/styles/Dropdown.module.css";
 
 type DropdownProps = {
