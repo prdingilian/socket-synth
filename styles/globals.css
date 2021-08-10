@@ -1,9 +1,16 @@
+:root {
+  --theme-blue: #0070f3;
+  --theme-purple: #8a3ffc;
+  --theme-grey: #eaeaea;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: var(--theme-blue);
 }
 
 a {
@@ -13,4 +20,38 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  backdrop-filter: blur(3px);
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.37, 1.55);
+}
+
+button:hover,
+button:focus {
+  border-color: var(--theme-blue);
+  transform: translateY(-2.5%);
+}
+
+button:active {
+  transform: scale(98%);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0px 0px 4px var(--theme-blue);
+}
+
+.canvas-container {
+  position: fixed;
+  z-index: -2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

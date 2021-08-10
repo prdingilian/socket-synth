@@ -1,0 +1,28 @@
+.select {
+  font-size: 1.5rem;
+  color: inherit;
+  border-radius: 8px;
+  border-color: var(--theme-grey);
+  background-color: transparent;
+  backdrop-filter: blur(3px);
+  padding: 0.2rem 0.5rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.select:focus,
+.select:hover {
+  border-color: var(--theme-blue);
+}
+
+.select:focus {
+  box-shadow: 0px 0px 4px var(--theme-blue);
+  outline: none;
+}
+
+.label {
+  padding-bottom: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

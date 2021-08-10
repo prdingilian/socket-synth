@@ -1,53 +1,86 @@
 .container {
   min-height: 100vh;
-  padding: 0 0.5rem;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  align-content: space-between;
 }
 
 .main {
-  padding: 5rem 0;
+  padding: 2rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  align-items: center;
+  padding: 10px;
+}
+
+.row {
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 10px 0;
 }
 
 .footer {
+  position: sticky;
+  bottom: 0;
   width: 100%;
-  height: 100px;
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid var(--theme-grey);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+  backdrop-filter: blur(2px);
 }
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+.footertext {
+  position: relative;
+  font-weight: bold;
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
+.footer:hover {
+  border-top: 1px solid var(--theme-blue);
 }
 
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+.headerblob {
+  position: absolute;
+  right: -45px;
+  transform: rotate(160deg);
+  z-index: -1;
+  opacity: 0.4;
+  top: -40px;
+}
+
+.footerblob {
+  position: absolute;
+  right: -15px;
+  transform: rotate(70deg);
+  z-index: -1;
+  opacity: 0.2;
+  top: -20px;
 }
 
 .title {
   margin: 0;
   line-height: 1.15;
   font-size: 4rem;
+  padding-bottom: 1rem;
+  transition: all 1s cubic-bezier(0.68, -0.55, 0.37, 1.55);
+  position: relative;
+  color: var(--theme-blue);
+}
+
+.title:hover {
+  color: var(--theme-purple);
 }
 
 .title,
@@ -60,46 +93,29 @@
   font-size: 1.5rem;
 }
 
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
-}
-
 .grid {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 800px;
-  margin-top: 3rem;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .card {
   margin: 1rem;
-  padding: 1.5rem;
+  padding: 1rem;
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  border: 1px solid var(--theme-grey);
   border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  width: 45%;
-}
-
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  width: 27%;
 }
 
 .card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .card p {
@@ -108,14 +124,12 @@
   line-height: 1.5;
 }
 
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
-}
-
 @media (max-width: 600px) {
-  .grid {
-    width: 100%;
+  .card {
+    width: 28%;
+  }
+
+  .row {
     flex-direction: column;
   }
 }
