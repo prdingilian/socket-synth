@@ -10,7 +10,6 @@ const pusher = new Pusher({
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const body = JSON.parse(req.body);
-  console.log(body);
   pusher.trigger("synth-events", "synth-event", body);
   res.status(200).json({ success: true });
 }

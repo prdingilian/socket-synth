@@ -8,7 +8,7 @@ type DropdownProps = {
   options: DropdownOption[];
 };
 
-export const Dropdown = (props: DropdownProps) => {
+const Dropdown = (props: DropdownProps) => {
   return (
     <>
       <label className={styles.label} htmlFor={props.label}>
@@ -29,3 +29,5 @@ export const Dropdown = (props: DropdownProps) => {
     </>
   );
 };
+
+export default Dropdown;

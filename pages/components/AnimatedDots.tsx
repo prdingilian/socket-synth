@@ -51,7 +51,7 @@ const Stars = ({ count }: { count: number }) => {
   );
 };
 
-export const AnimatedDots = () => {
+const AnimatedDots = () => {
   return (
     <div className="canvas-container">
       <Canvas
@@ -67,3 +67,5 @@ export const AnimatedDots = () => {
     </div>
   );
 };
+
+export default AnimatedDots;

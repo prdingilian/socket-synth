@@ -11,8 +11,8 @@ import {
 import { audioContext } from "../web-audio/web-audio";
 import { synthVoices, Voice, voiceOptions } from "../constants/synth-presets";
 import { getFrequency } from "../web-audio/frequencies";
-import { Dropdown } from "./components/Dropdown";
-import { AnimatedDots } from "./components/AnimatedDots";
+import Dropdown from "./components/Dropdown";
+import AnimatedDots from "./components/AnimatedDots";
 import { AppState, initialState } from "../constants/app-state";
 import { useRef, useState } from "react";
 import Pusher from "pusher-js";
