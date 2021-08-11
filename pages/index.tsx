@@ -23,23 +23,27 @@ import { useCallback } from "react";
 
 // workaround: playNote needs to be defined on client for AudioContext to exist
 let playNote = (noteValue: number, synthVoice: Voice) => {};
-if (process.browser) {
-  const audio = audioContext(new AudioContext());
-  playNote = (noteValue: number, synthVoice: Voice) => {
-    const frequency = getFrequency(noteValue);
-    const playOscillator = audio.getOscillator(
-      synthVoices[synthVoice],
-      frequency
-    );
-    playOscillator();
-  };
-}
 
 export default function Home() {
   const userId = useRef(uuidv4());
   const [state, setState] = useState(initialState);
   const updateState = (update: Partial<AppState>) =>
     setState({ ...state, ...update });
+
+  useEffect(() => {
+    if (process.browser) {
+      const audio = audioContext(new AudioContext());
+      playNote = (noteValue: number, synthVoice: Voice) => {
+        const frequency = getFrequency(noteValue);
+        const playOscillator = audio.getOscillator(
+          synthVoices[synthVoice],
+          frequency
+        );
+        playOscillator();
+      };
+    }
+  }, []);
+
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
@@ -56,6 +60,7 @@ export default function Home() {
       pusher.unsubscribe("synth-events");
     };
   }, []);
+
   const handleNotePress = useCallback(
     (noteValue: number, synthVoice: Voice) => {
       playNote(noteValue, synthVoice);
@@ -74,6 +79,10 @@ export default function Home() {
             content="A massive multiplayer musical instrument"
           />
           <link rel="icon" href="/blob.svg" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap"
+            rel="stylesheet"
+          />
         </Head>
 
         <main className={styles.main}>
@@ -137,7 +146,11 @@ export default function Home() {
 
         <footer className={styles.footer}>
           <span className={styles.footertext}>
-            <a href="https://www.github.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://github.com/prdingilian/socket-synth"
+              target="_blank"
+              rel="noreferrer"
+            >
               View on Github
             </a>
             <span className={styles.footerblob}>
