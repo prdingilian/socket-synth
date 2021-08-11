@@ -31,17 +31,15 @@ export default function Home() {
     setState({ ...state, ...update });
 
   useEffect(() => {
-    if (process.browser) {
-      const audio = audioContext(new AudioContext());
-      playNote = (noteValue: number, synthVoice: Voice) => {
-        const frequency = getFrequency(noteValue);
-        const playOscillator = audio.getOscillator(
-          synthVoices[synthVoice],
-          frequency
-        );
-        playOscillator();
-      };
-    }
+    const audio = audioContext(new AudioContext());
+    playNote = (noteValue: number, synthVoice: Voice) => {
+      const frequency = getFrequency(noteValue);
+      const playOscillator = audio.getOscillator(
+        synthVoices[synthVoice],
+        frequency
+      );
+      playOscillator();
+    };
   }, []);
 
   useEffect(() => {

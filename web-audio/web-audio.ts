@@ -45,65 +45,64 @@ export const audioContext = (audioContext: AudioContext) => {
   };
 
   const getOscillator = (synth: Synth, frequency: number): Function => {
-    if (audioContext.state === "running") {
-      const oscillator = createOscillator(synth.oscillator);
-      const gain = createGainNode();
-      const filter = createFilter();
-      const reverb = createReverb();
-      oscillator
-        .connect(gain)
-        .connect(filter)
-        .connect(reverb)
-        .connect(audioContext.destination);
-      const playOscillator = () => {
-        oscillator.start();
-        oscillator.detune.value = Math.random() * synth.oscillator.detune;
-        oscillator.frequency.value = frequency;
-        gain.gain.linearRampToValueAtTime(
-          synth.gain.gain,
-          audioContext.currentTime + synth.gain.envelope.attack
-        );
-        gain.gain.setValueAtTime(
-          synth.gain.gain,
-          audioContext.currentTime +
-            synth.gain.envelope.attack +
-            synth.gain.envelope.sustain
-        );
-        filter.frequency.linearRampToValueAtTime(
-          synth.filter.frequency,
-          audioContext.currentTime + synth.filter.envelope.attack
-        );
-        filter.frequency.setValueAtTime(
-          synth.filter.frequency,
-          audioContext.currentTime +
-            synth.filter.envelope.attack +
-            synth.filter.envelope.sustain
-        );
-        gain.gain.linearRampToValueAtTime(
-          0,
-          audioContext.currentTime +
-            synth.gain.envelope.attack +
-            synth.gain.envelope.sustain +
-            synth.gain.envelope.release
-        );
-        filter.frequency.linearRampToValueAtTime(
-          0,
-          audioContext.currentTime +
-            synth.filter.envelope.attack +
-            synth.filter.envelope.sustain +
-            synth.filter.envelope.release
-        );
-        oscillator.stop(
-          audioContext.currentTime +
-            synth.gain.envelope.attack +
-            synth.gain.envelope.sustain +
-            synth.gain.envelope.release
-        );
-      };
-      return playOscillator;
-    } else {
-      return () => {};
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
     }
+    const oscillator = createOscillator(synth.oscillator);
+    const gain = createGainNode();
+    const filter = createFilter();
+    const reverb = createReverb();
+    oscillator
+      .connect(gain)
+      .connect(filter)
+      .connect(reverb)
+      .connect(audioContext.destination);
+    const playOscillator = () => {
+      oscillator.start();
+      oscillator.detune.value = Math.random() * synth.oscillator.detune;
+      oscillator.frequency.value = frequency;
+      gain.gain.linearRampToValueAtTime(
+        synth.gain.gain,
+        audioContext.currentTime + synth.gain.envelope.attack
+      );
+      gain.gain.setValueAtTime(
+        synth.gain.gain,
+        audioContext.currentTime +
+          synth.gain.envelope.attack +
+          synth.gain.envelope.sustain
+      );
+      filter.frequency.linearRampToValueAtTime(
+        synth.filter.frequency,
+        audioContext.currentTime + synth.filter.envelope.attack
+      );
+      filter.frequency.setValueAtTime(
+        synth.filter.frequency,
+        audioContext.currentTime +
+          synth.filter.envelope.attack +
+          synth.filter.envelope.sustain
+      );
+      gain.gain.linearRampToValueAtTime(
+        0,
+        audioContext.currentTime +
+          synth.gain.envelope.attack +
+          synth.gain.envelope.sustain +
+          synth.gain.envelope.release
+      );
+      filter.frequency.linearRampToValueAtTime(
+        0,
+        audioContext.currentTime +
+          synth.filter.envelope.attack +
+          synth.filter.envelope.sustain +
+          synth.filter.envelope.release
+      );
+      oscillator.stop(
+        audioContext.currentTime +
+          synth.gain.envelope.attack +
+          synth.gain.envelope.sustain +
+          synth.gain.envelope.release
+      );
+    };
+    return playOscillator;
   };
   return { getOscillator };
 };
