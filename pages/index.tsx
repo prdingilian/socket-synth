@@ -21,18 +21,16 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { useCallback } from "react";
 
-// workaround: playNote needs to be defined on client for AudioContext to exist
-let playNote = (noteValue: number, synthVoice: Voice) => {};
-
 export default function Home() {
   const userId = useRef(uuidv4());
   const [state, setState] = useState(initialState);
   const updateState = (update: Partial<AppState>) =>
     setState({ ...state, ...update });
+  const playNote = useRef((noteValue: number, synthVoice: Voice) => {});
 
   useEffect(() => {
     const audio = audioContext(new AudioContext());
-    playNote = (noteValue: number, synthVoice: Voice) => {
+    playNote.current = (noteValue: number, synthVoice: Voice) => {
       const frequency = getFrequency(noteValue);
       const playOscillator = audio.getOscillator(
         synthVoices[synthVoice],
@@ -50,7 +48,7 @@ export default function Home() {
     const pusherEvents = pusher.subscribe("synth-events");
     pusherEvents.bind("synth-event", (data: SynthEvent) => {
       if (data.userId !== userId.current) {
-        playNote(data.relativeValue, data.synthVoice);
+        playNote.current(data.relativeValue, data.synthVoice);
       }
     });
     return () => {
@@ -61,7 +59,7 @@ export default function Home() {
 
   const handleNotePress = useCallback(
     (noteValue: number, synthVoice: Voice) => {
-      playNote(noteValue, synthVoice);
+      playNote.current(noteValue, synthVoice);
       broadcastNote(userId.current, noteValue, synthVoice);
     },
     []
