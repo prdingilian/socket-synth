@@ -15,7 +15,7 @@ import Dropdown from "./components/Dropdown";
 import AnimatedDots from "./components/AnimatedDots";
 import { AppState, initialState } from "../constants/app-state";
 import { useRef, useState } from "react";
-import Pusher from "pusher-js";
+import Pusher, { Channel } from "pusher-js";
 import { broadcastNote, SynthEvent } from "../constants/event-types";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
@@ -23,6 +23,7 @@ import { useCallback } from "react";
 
 export default function Home() {
   const userId = useRef(uuidv4());
+  const channel = useRef<Channel>();
   const [state, setState] = useState(initialState);
   const updateState = (update: Partial<AppState>) =>
     setState({ ...state, ...update });
@@ -43,10 +44,12 @@ export default function Home() {
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
+      authEndpoint: "/api/pusher-auth",
     });
 
-    const pusherEvents = pusher.subscribe("synth-events");
-    pusherEvents.bind("synth-event", (data: SynthEvent) => {
+    const pusherEvents = pusher.subscribe("presence-client-synth-events");
+    channel.current = pusherEvents;
+    pusherEvents.bind("client-synth-event", (data: SynthEvent) => {
       if (data.userId !== userId.current) {
         playNote.current(data.relativeValue, data.synthVoice);
       }
@@ -60,7 +63,12 @@ export default function Home() {
   const handleNotePress = useCallback(
     (noteValue: number, synthVoice: Voice) => {
       playNote.current(noteValue, synthVoice);
-      broadcastNote(userId.current, noteValue, synthVoice);
+      if (channel.current) {
+        broadcastNote(
+          { userId: userId.current, relativeValue: noteValue, synthVoice },
+          channel.current
+        );
+      }
     },
     []
   );
