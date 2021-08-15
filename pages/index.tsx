@@ -8,61 +8,46 @@ import {
   Scale,
   scaleOptions,
 } from "../constants/scale-types";
-import { audioContext } from "../web-audio/web-audio";
-import { synthVoices, Voice, voiceOptions } from "../constants/synth-presets";
-import { getFrequency } from "../web-audio/frequencies";
 import Dropdown from "./components/Dropdown";
 import AnimatedDots from "./components/AnimatedDots";
 import { AppState, initialState } from "../constants/app-state";
 import { useRef, useState } from "react";
-import Pusher from "pusher-js";
 import { broadcastNote, SynthEvent } from "../constants/event-types";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { useCallback } from "react";
+import usePusher from "../hooks/usePusher";
+import useOscillator from "../hooks/useOscillator";
+import { Voice, voiceOptions } from "../constants/synth-presets";
 
 export default function Home() {
   const userId = useRef(uuidv4());
   const [state, setState] = useState(initialState);
   const updateState = (update: Partial<AppState>) =>
     setState({ ...state, ...update });
-  const playNote = useRef((noteValue: number, synthVoice: Voice) => {});
+
+  const playOscillator = useOscillator();
+  const channel = usePusher();
 
   useEffect(() => {
-    const audio = audioContext(new AudioContext());
-    playNote.current = (noteValue: number, synthVoice: Voice) => {
-      const frequency = getFrequency(noteValue);
-      const playOscillator = audio.getOscillator(
-        synthVoices[synthVoice],
-        frequency
-      );
-      playOscillator();
-    };
-  }, []);
-
-  useEffect(() => {
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
-    });
-
-    const pusherEvents = pusher.subscribe("synth-events");
-    pusherEvents.bind("synth-event", (data: SynthEvent) => {
+    channel?.bind("client-synth-event", (data: SynthEvent) => {
       if (data.userId !== userId.current) {
-        playNote.current(data.relativeValue, data.synthVoice);
+        playOscillator?.(data.relativeValue, data.synthVoice);
       }
     });
-    return () => {
-      pusher.unbind_all();
-      pusher.unsubscribe("synth-events");
-    };
-  }, []);
+  }, [channel, playOscillator]);
 
   const handleNotePress = useCallback(
     (noteValue: number, synthVoice: Voice) => {
-      playNote.current(noteValue, synthVoice);
-      broadcastNote(userId.current, noteValue, synthVoice);
+      playOscillator?.(noteValue, synthVoice);
+      if (channel) {
+        broadcastNote(
+          { userId: userId.current, relativeValue: noteValue, synthVoice },
+          channel
+        );
+      }
     },
-    []
+    [channel, playOscillator]
   );
 
   return (

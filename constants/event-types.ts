@@ -1,3 +1,4 @@
+import { Channel } from "pusher-js";
 import { Voice } from "./synth-presets";
 
 export type SynthEvent = {
@@ -6,18 +7,6 @@ export type SynthEvent = {
   synthVoice: Voice;
 };
 
-export const broadcastNote = (
-  userId: string,
-  noteValue: number,
-  synthVoice: Voice
-) => {
-  const data: SynthEvent = {
-    userId,
-    relativeValue: noteValue,
-    synthVoice: synthVoice,
-  };
-  fetch("/api/synth-event", {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
+export const broadcastNote = (data: SynthEvent, channel: Channel) => {
+  channel.trigger("client-synth-event", data);
 };
