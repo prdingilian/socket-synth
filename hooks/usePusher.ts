@@ -15,7 +15,7 @@ const usePusher = () => {
 
     return () => {
       pusher.unbind_all();
-      pusher.unsubscribe("synth-events");
+      pusher.unsubscribe("presence-client-synth-events");
     };
   }, []);
 
