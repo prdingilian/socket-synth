@@ -17,7 +17,7 @@
 }
 
 .select:focus {
-  box-shadow: 0px 0px 4px var(--theme-blue);
+  box-shadow: 0px 0px 4px var(--theme-purple);
   outline: none;
 }
 
