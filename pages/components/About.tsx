@@ -1,11 +1,14 @@
 import Modal from "react-modal";
+import Image from "next/image";
 import { ReactState } from "../../constants/react-types";
 import styles from "/styles/About.module.css";
 
 type Props = {
-  state: ReactState<boolean>;
+  isOpen: boolean;
+  setIsOpen: ReactState<boolean>[1];
 };
-const About = ({ state: [isOpen, setIsOpen] }: Props) => {
+
+const About = ({ isOpen, setIsOpen }: Props) => {
   Modal.setAppElement("#root");
   return (
     <Modal
@@ -30,7 +33,12 @@ const About = ({ state: [isOpen, setIsOpen] }: Props) => {
       }}
     >
       <div className={styles.container}>
-        <h2 className={styles.header}>About Socket Synth</h2>
+        <h2 className={styles.header}>
+          <span className={styles.headerblob}>
+            <Image src="/blob.svg" alt="a purple blob" width={55} height={55} />
+          </span>
+          About Socket Synth
+        </h2>
         <p className={styles.p}>
           Socket Synth is a multiplayer musical instrument. Every note that you
           play will be heard by everyone who is online, and vice versa! The

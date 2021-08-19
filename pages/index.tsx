@@ -154,7 +154,7 @@ export default function Home() {
         </footer>
       </div>
       <AnimatedDots />
-      <About state={[modalState, setModalState]}></About>
+      <About isOpen={modalState} setIsOpen={setModalState}></About>
     </>
   );
 }
