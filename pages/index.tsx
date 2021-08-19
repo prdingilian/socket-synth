@@ -19,12 +19,14 @@ import { useCallback } from "react";
 import usePusher from "../hooks/usePusher";
 import useOscillator from "../hooks/useOscillator";
 import { Voice, voiceOptions } from "../constants/synth-presets";
+import About from "./components/About";
 
 export default function Home() {
   const userId = useRef(uuidv4());
-  const [state, setState] = useState(initialState);
+  const [appState, setAppState] = useState(initialState);
+  const [modalState, setModalState] = useState(true);
   const updateState = (update: Partial<AppState>) =>
-    setState({ ...state, ...update });
+    setAppState({ ...appState, ...update });
 
   const playOscillator = useOscillator();
   const channel = usePusher();
@@ -36,6 +38,12 @@ export default function Home() {
       }
     });
   }, [channel, playOscillator]);
+
+  useEffect(() => {
+    if (localStorage.getItem("dontShowAgain") === "true") {
+      setModalState(false);
+    }
+  }, []);
 
   const handleNotePress = useCallback(
     (noteValue: number, synthVoice: Voice) => {
@@ -52,7 +60,7 @@ export default function Home() {
 
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.container} id="root">
         <Head>
           <title>Socket Synth</title>
           <meta
@@ -82,7 +90,7 @@ export default function Home() {
           <div className={styles.row}>
             <div className={styles.column}>
               <Dropdown
-                value={state.root}
+                value={appState.root}
                 setValue={(newValue: NoteName) =>
                   updateState({ root: newValue })
                 }
@@ -92,7 +100,7 @@ export default function Home() {
             </div>
             <div className={styles.column}>
               <Dropdown
-                value={state.scale}
+                value={appState.scale}
                 setValue={(newValue: Scale) => updateState({ scale: newValue })}
                 label="Scale"
                 options={scaleOptions}
@@ -100,7 +108,7 @@ export default function Home() {
             </div>
             <div className={styles.column}>
               <Dropdown
-                value={state.voice}
+                value={appState.voice}
                 setValue={(newValue: Voice) => updateState({ voice: newValue })}
                 label="Voice"
                 options={voiceOptions}
@@ -109,11 +117,11 @@ export default function Home() {
           </div>
 
           <section className={styles.grid}>
-            {getScaleForKey({ note: state.root, scale: state.scale }).map(
+            {getScaleForKey({ note: appState.root, scale: appState.scale }).map(
               (note) => (
                 <button
                   onClick={(_e) =>
-                    handleNotePress(note.relativeValue, state.voice)
+                    handleNotePress(note.relativeValue, appState.voice)
                   }
                   key={note.relativeValue}
                   className={styles.card}
@@ -146,6 +154,7 @@ export default function Home() {
         </footer>
       </div>
       <AnimatedDots />
+      <About state={[modalState, setModalState]}></About>
     </>
   );
 }

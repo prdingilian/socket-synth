@@ -1,0 +1,33 @@
+.header {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.button {
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: var(--theme-blue);
+  color: white;
+  border-radius: 8px;
+  border: 1px solid var(--theme-grey);
+  margin-left: auto;
+  width: 100px;
+}
+
+.container {
+  font-size: 1.5rem;
+  margin: 0 auto;
+}
+
+.p {
+  font-size: 1rem;
+  padding: 0 2% 10px 2%;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: small;
+  padding-top: 5px;
+}
