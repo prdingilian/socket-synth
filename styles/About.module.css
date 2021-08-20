@@ -19,6 +19,7 @@
   border: 1px solid var(--theme-grey);
   margin-left: auto;
   width: 100px;
+  padding: 5px;
 }
 
 .container {
