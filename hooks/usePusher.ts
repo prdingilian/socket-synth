@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 const usePusher = () => {
   const [channel, setChannel] = useState<Channel>();
+  const [userCount, setUserCount] = useState(0);
 
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
@@ -12,6 +13,15 @@ const usePusher = () => {
 
     const pusherChannel = pusher.subscribe("presence-client-synth-events");
     setChannel(pusherChannel);
+    pusherChannel.bind("pusher:subscription_succeeded", (members: any) => {
+      setUserCount(members.count - 1);
+    });
+    pusherChannel.bind("pusher:member_added", (member: any) => {
+      setUserCount((prev) => prev + 1);
+    });
+    pusherChannel.bind("pusher:member_removed", (member: any) => {
+      setUserCount((prev) => prev - 1);
+    });
 
     return () => {
       pusher.unbind_all();
@@ -19,7 +29,7 @@ const usePusher = () => {
     };
   }, []);
 
-  return channel;
+  return { channel, userCount };
 };
 
 export default usePusher;

@@ -35,7 +35,13 @@ const About = ({ isOpen, setIsOpen }: Props) => {
       <div className={styles.container}>
         <h2 className={styles.header}>
           <span className={styles.headerblob}>
-            <Image src="/blob.svg" alt="a purple blob" width={55} height={55} />
+            <Image
+              src="/blob.svg"
+              alt="a purple blob"
+              width={55}
+              height={55}
+              priority
+            />
           </span>
           About Socket Synth
         </h2>

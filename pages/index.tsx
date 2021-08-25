@@ -29,7 +29,7 @@ export default function Home() {
     setAppState({ ...appState, ...update });
 
   const playOscillator = useOscillator();
-  const channel = usePusher();
+  const { channel, userCount } = usePusher();
 
   useEffect(() => {
     channel?.bind("client-synth-event", (data: SynthEvent) => {
@@ -83,9 +83,26 @@ export default function Home() {
                 alt="a purple blob"
                 width={150}
                 height={150}
+                priority
               ></Image>
             </span>
           </h1>
+          <span className={styles.usercount}>
+            <span className={styles.usericon}>
+              <Image
+                src="/user.svg"
+                alt="a user icon"
+                width={15}
+                height={15}
+                priority
+              ></Image>
+            </span>
+            {userCount < 1
+              ? "No other people online"
+              : userCount === 1
+              ? "1 other person online"
+              : `${userCount} other people online`}
+          </span>
 
           <div className={styles.row}>
             <div className={styles.column}>
@@ -148,6 +165,7 @@ export default function Home() {
                 alt="a purple blob"
                 width={45}
                 height={45}
+                priority
               />
             </span>
           </span>

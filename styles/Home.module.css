@@ -8,7 +8,7 @@
 }
 
 .main {
-  padding: 2rem 0;
+  padding: 1rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -73,7 +73,7 @@
 .title {
   margin: 0;
   font-size: 4rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
   transition: all 1s cubic-bezier(0.68, -0.55, 0.37, 1.55);
   position: relative;
   color: var(--theme-blue);
@@ -122,6 +122,17 @@
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
+}
+
+.usercount {
+  backdrop-filter: blur(2px);
+  border: 1px solid var(--theme-grey);
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+.usericon {
+  padding-right: 3px;
 }
 
 @media (max-width: 600px) {
