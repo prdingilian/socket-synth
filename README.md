@@ -16,8 +16,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Current Tasks
 
-- Add a landing page that describes the app's behavior
-- Add a count of how many people are currently connected
+- ~~Add a landing page that describes the app's behavior~~
+- ~~Add a count of how many people are currently connected~~
+- Keyboard shortcuts for playing notes
 
 ## Learn More
 
