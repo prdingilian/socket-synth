@@ -147,6 +147,10 @@
   .title {
     font-size: 3rem;
   }
+
+  .column {
+    padding: 5px;
+  }
 }
 
 @media (max-width: 400px) {
