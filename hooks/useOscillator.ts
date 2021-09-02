@@ -8,7 +8,10 @@ const useOscillator = () => {
     useState<(noteValue: number, synthVoice: Voice) => void>();
 
   useEffect(() => {
-    const { getOscillator } = audioContext(new AudioContext());
+    // safari hack...
+    const CrossBrowserAudioContext =
+      window.AudioContext || (window as any).webkitAudioContext;
+    const { getOscillator } = audioContext(new CrossBrowserAudioContext());
     const oscillatorFn = (noteValue: number, synthVoice: Voice) => {
       const frequency = getFrequency(noteValue);
       const playOscillator = getOscillator(synthVoices[synthVoice], frequency);
