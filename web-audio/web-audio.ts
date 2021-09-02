@@ -2,10 +2,14 @@ import { Oscillator, Synth } from "../constants/synth-types";
 
 export const audioContext = (audioContext: AudioContext) => {
   let buffer: AudioBuffer;
-  fetch("/ir.mp3")
-    .then((res) => res.arrayBuffer())
-    .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
-    .then((audioBuffer) => (buffer = audioBuffer));
+
+  // safari hack, decodeAudioData doesn't work...
+  if (window?.AudioContext) {
+    fetch("/ir.mp3")
+      .then((res) => res.arrayBuffer())
+      .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+      .then((audioBuffer) => (buffer = audioBuffer));
+  }
 
   const createOscillator = (oscData: Oscillator) => {
     const oscillator = audioContext.createOscillator();
