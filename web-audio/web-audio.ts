@@ -4,13 +4,10 @@ export const audioContext = (audioContext: AudioContext) => {
   let buffer: AudioBuffer;
   audioContext.resume();
 
-  // safari hack, decodeAudioData doesn't work...
-  if (window?.AudioContext) {
-    fetch("/ir.mp3")
-      .then((res) => res.arrayBuffer())
-      .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
-      .then((audioBuffer) => (buffer = audioBuffer));
-  }
+  fetch("/ir.mp3")
+    .then((res) => res.arrayBuffer())
+    .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+    .then((audioBuffer) => (buffer = audioBuffer));
 
   const createOscillator = (oscData: Oscillator) => {
     const oscillator = audioContext.createOscillator();
