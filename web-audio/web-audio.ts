@@ -2,6 +2,7 @@ import { Oscillator, Synth } from "../constants/synth-types";
 
 export const audioContext = (audioContext: AudioContext) => {
   let buffer: AudioBuffer;
+  audioContext.resume();
 
   // safari hack, decodeAudioData doesn't work...
   if (window?.AudioContext) {
