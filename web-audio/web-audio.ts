@@ -2,7 +2,6 @@ import { Oscillator, Synth } from "../constants/synth-types";
 
 export const audioContext = (audioContext: AudioContext) => {
   let buffer: AudioBuffer;
-  audioContext.resume();
 
   fetch("/ir.mp3")
     .then((res) => res.arrayBuffer())
