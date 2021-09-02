@@ -45,6 +45,13 @@ export default function Home() {
     }
   }, []);
 
+  const [isSafari, setIsSafari] = useState(false);
+  useEffect(() => {
+    if (!window.AudioContext) {
+      setIsSafari(true);
+    }
+  }, []);
+
   const handleNotePress = useCallback(
     (noteValue: number, synthVoice: Voice) => {
       playOscillator?.(noteValue, synthVoice);
@@ -57,6 +64,19 @@ export default function Home() {
     },
     [channel, playOscillator]
   );
+
+  // Don't even try with safari
+  if (isSafari) {
+    return (
+      <>
+        <h1>
+          Sorry, this app uses experimental web features that your browser does
+          not support. Please try Chrome or Firefox!
+        </h1>
+        <AnimatedDots />
+      </>
+    );
+  }
 
   return (
     <>
