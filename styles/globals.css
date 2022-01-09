@@ -1,5 +1,5 @@
 :root {
-  --theme-blue: #0070f3;
+  --theme-blue: #1000f3d0;
   --theme-purple: #8a3ffc;
   --theme-grey: #eaeaea;
 }
@@ -16,6 +16,11 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  transition: ease-in-out;
+}
+
+a:hover {
+  color: var(--theme-purple)
 }
 
 * {

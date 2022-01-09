@@ -19,7 +19,7 @@ const Stars = ({ count }: { count: number }) => {
   }, [count]);
 
   const { rotateSpeed } = useSpring({
-    from: { rotateSpeed: 0.01 },
+    from: { rotateSpeed: 0.005 },
     rotateSpeed: 0.0002,
     config: config.molasses,
     reset: true,
@@ -61,7 +61,7 @@ const AnimatedDots = () => {
       >
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
-        <Stars count={3000} />
+        <Stars count={2000} />
         <fog attach="fog" args={["#8A3FFC", 100, 108]} />
       </Canvas>
     </div>
